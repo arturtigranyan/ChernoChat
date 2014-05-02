@@ -1,0 +1,175 @@
+// Class Accidents represents the initial data where the accident happens,
+// and the type of transportation that was involved in accident
+
+function Accident(){
+    this.data = Date();
+    this.name = "Name";
+    this.lastName = "Last Name";
+    this.age = null;
+    this.plane = "";
+    this.number = "Plane ID# 45543";
+    this.passanger = null;
+    this._altitude = null;
+    this.get = function altitude(){
+        return this.altitude;
+    }
+}
+
+
+// Civil class inherits from the Accident Class
+
+Civil.prototype = new Accident();
+
+// Civil class which represents the civilian types of airplane
+// it has it's unique data which specify when and where the catastrophe happened
+
+function Civil(planeType) {
+    this.airline = "Oceanic";
+    this.plane = planeType;
+    this.number = null;
+    this.departure = {
+        IATA: "SYD",
+        time: "2014-09-22 14:55",
+        city: "Kamboja"
+    };
+    this.arrival = {
+        IATA: "LAX",
+        time: "2004-09-23 10:42",
+        city: "Yerevan"
+    }
+}
+
+// the valid list of civilian airplanes which realised flights
+
+civilianplaneTypes = [
+    "Boing 737",
+    "Airbus 317",
+    "Airbus 311",
+    "Airbus 311",
+    "Airbus 311",
+    "Boing 731",
+    "Boing 731",
+    "Boing 731",
+    "Boing 733",
+    "Boing 733"
+];
+
+// empty array list which will keep initial air catastrophe
+cPlanes = [];
+for (var i = 0; i < 10; ++i) {
+    cPlanes.push(new Civil(civilianplaneTypes[i]));
+}
+
+// Military class inherits from the Accident Class
+
+Military.prototype = new Accident();
+
+// Military class which represents the military types of airplane
+// it has it's unique data which specify when and where the catastrophe happened
+// or how it was targeted by the enemy
+
+function Military(planeType, value) {
+    this.plane = planeType;
+    this.number = null;
+    this.countries = ["Siria", "Somali", "Cambodja", "Beirut", "Kuwait"];
+
+  /*  this.get = function countries(){
+        return this.countries
+    };
+    this.place = function teritory(){
+        return this.combatFlight;
+    };
+
+   */
+    this._val = value;
+    this.testFlight = {
+        mission: "To test pilot",
+        time: "2014-09-22 14:55",
+        city: "US"
+    };
+    this.combatFlight = {
+        mission: "Destroy military base",
+        time: "2004-09-23 10:42",
+        city: "Iran"
+    }
+}
+
+// the valid list of military airplanes which realised flights
+
+militaryPlaneTypes = [
+    "MiG-249",
+    "AH-64",
+    "F-86",
+    "MiG-249",
+    "MiG-249",
+    "MiG-249",
+    "AH-64",
+    "AH-64",
+    "AH-64",
+    "F-86"
+];
+
+// empty array list which will keep initial air catastrophe
+mPlanes = [];
+
+for (var i = 0; i < 10; ++i) {
+    mPlanes.push(new Military(militaryPlaneTypes[i]));
+}
+
+// function search will find the data based on type of the plane
+
+function search(query){
+    var len = mPlanes.length,
+        plane,
+        resultPlanes = [];
+
+    for(var i = 0; i < len; ++i){
+        plane = mPlanes[i];
+        if(plane.plane.toLowerCase().match(query.toLowerCase())){
+            resultPlanes.push(plane);
+        }
+    }
+    return resultPlanes;
+}
+
+
+// this is another object which extends the class Accident and adds specific data in certain plane
+
+Accident.prototype.get = function altitude(){
+    return this._altitude;
+};
+
+var Altitude = new Accident(5555);
+Altitude.get();
+
+
+// AirAccidents extends the class Civil and adds Alitalia
+
+var airAccidents = new Civil();
+airAccidents.get = function civilAviationAccidents(){
+    return Civil.get.call(this) + "Alitalia";
+};
+
+
+// airMilitaryAccidents extends the class Military and adds the territory in which the accident happens
+// and contains the list of countries that are involved in the conflict
+
+
+Military.prototype.get = function militaryAviationAccidents(){
+    return this._val = Military.countries;
+};
+
+function MilitaryPlane(value){
+    Military.call(this, value);
+}
+
+MilitaryPlane.prototype = Object.create(Military.prototype);
+MilitaryPlane.prototype.constructor = MilitaryPlane;
+MilitaryPlane.prototype.get = function fn2(){
+    return Military.prototype.get.call(this) + "!!!!!!";
+};
+
+var newMilitary = new Military(34);
+var military = new MilitaryPlane(Military.countries);
+
+console.log(search("MiG"));
